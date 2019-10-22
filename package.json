@@ -1,0 +1,36 @@
+{
+  "name": "react-snake",
+  "version": "0.0.0",
+  "description": "The snake game built in react!!",
+  "scripts": {
+    "test": "test",
+    "start": "./node_modules/.bin/parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EnriqueDev/react-snake.git"
+  },
+  "keywords": [
+    "react",
+    "snake",
+    "game"
+  ],
+  "author": "Enrique Martin Garcia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EnriqueDev/react-snake/issues"
+  },
+  "homepage": "https://github.com/EnriqueDev/react-snake#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
+    "@types/styled-components": "^4.1.19",
+    "awesome-typescript-loader": "^5.2.1",
+    "parcel-bundler": "^1.12.4",
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "styled-components": "^4.4.0"
+  }
+}
