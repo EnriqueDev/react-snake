@@ -4,11 +4,12 @@
   "description": "The snake game built in react!!",
   "scripts": {
     "test": "test",
-    "start": "./node_modules/.bin/parcel src/index.html"
+    "start": "parcel src/index.html --no-autoinstall",
+    "compile": "tsc -p . --noEmit --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EnriqueDev/react-snake.git"
+    "url": "git+https://github.com/overnight-dev/react-snake.git"
   },
   "keywords": [
     "react",
@@ -18,19 +19,22 @@
   "author": "Enrique Martin Garcia",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EnriqueDev/react-snake/issues"
+    "url": "https://github.com/overnight-dev/react-snake/issues"
   },
-  "homepage": "https://github.com/EnriqueDev/react-snake#readme",
+  "homepage": "https://github.com/overnight-dev/react-snake#readme",
   "devDependencies": {
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",
     "@types/styled-components": "^4.1.19",
-    "awesome-typescript-loader": "^5.2.1",
-    "parcel-bundler": "^1.12.4",
+    "parcel-bundler": "1.12.4",
+    "prettier": "^1.18.2",
     "source-map-loader": "^0.2.4",
     "typescript": "^3.6.4"
   },
   "dependencies": {
+    "mobx": "^5.14.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.10.2",
     "styled-components": "^4.4.0"
   }
 }

@@ -2,14 +2,26 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
+    "experimentalDecorators": true,
     "jsx": "preserve",
     "strict": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "~*": ["./*"]
+      "~*": ["src/app/*"]
     }
   },
-  "lib": ["dom", "es5", "es6", "esnext"],
-  "include": ["src/**/*"]
+  "files": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.d.ts",
+    "node_modules/**/*/*.d.ts"
+  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

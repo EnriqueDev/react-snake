@@ -1,4 +1,4 @@
-import { css, createGlobalStyle } from "styled-components";
+import { css, createGlobalStyle } from 'styled-components'
 
 export const reset = css`
   /* http://meyerweb.com/eric/tools/css/reset/
@@ -94,6 +94,13 @@ export const reset = css`
     font: inherit;
     vertical-align: baseline;
   }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+  }
   /* HTML5 display-role reset for older browsers */
   article,
   aside,
@@ -128,15 +135,15 @@ export const reset = css`
   blockquote:after,
   q:before,
   q:after {
-    content: "";
+    content: '';
     content: none;
   }
   table {
     border-collapse: collapse;
     border-spacing: 0;
   }
-`;
+`
 
-export const Reset = createGlobalStyle`${reset}`;
+export const Reset = createGlobalStyle`${reset}`
 
-export default reset;
+export default reset
