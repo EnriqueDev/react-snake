@@ -1,14 +1,20 @@
-import * as React from "react";
-import { Reset } from "~/styles.global";
-import Dummy from "./components/Dummy";
+import * as React from 'react'
+import { Reset } from './styles/global'
+import { StoreContext } from './store/context'
+import Store from './store/store'
+import Board from './components/Board'
 
 const App: React.FC = () => {
+  const store = new Store()
+
   return (
     <>
-      <Reset />
-      <Dummy />
+      <StoreContext.Provider value={store}>
+        <Reset />
+        <Board />
+      </StoreContext.Provider>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
