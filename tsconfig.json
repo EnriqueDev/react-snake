@@ -11,17 +11,12 @@
     "resolveJsonModule": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "alwaysStrict": true,
     "baseUrl": ".",
     "paths": {
       "~*": ["src/app/*"]
     }
   },
-  "files": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.d.ts",
-    "node_modules/**/*/*.d.ts"
-  ],
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
