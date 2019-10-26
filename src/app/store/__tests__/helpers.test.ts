@@ -1,4 +1,5 @@
 import { getInitialBoardData, getInitialSnakeData } from '../helpers'
+import { DEFAULT_SNAKE_SIZE } from '../../../constants'
 
 describe('Helper Functions', () => {
   describe('getInitialBoardData', () => {
@@ -21,7 +22,7 @@ describe('Helper Functions', () => {
 
     it('should provide an array with three elements', () => {
       const initialData = getInitialSnakeData(10)
-      expect(initialData).toHaveLength(3)
+      expect(initialData).toHaveLength(DEFAULT_SNAKE_SIZE)
     })
 
     it('should provide the correct positions', () => {

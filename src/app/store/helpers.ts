@@ -1,17 +1,22 @@
 import { Position } from './Snake/SnakeNode'
+import { MIN_BOARD_SIZE } from '../../constants'
 
 export const getInitialBoardData = (cells: number): any[][] => {
   const board = []
 
   for (let row = 0; row < cells; row++) {
-    board.push(new Array(cells))
+    const newArray = []
+    for (let cell = 0; cell < cells; cell++) {
+      newArray.push(null)
+    }
+    board.push(newArray)
   }
 
   return board
 }
 
 export const getInitialSnakeData = (boardSize: number): Position[] => {
-  if (boardSize < 10) {
+  if (boardSize < MIN_BOARD_SIZE) {
     throw new Error('Board is not big enough to set the snake')
   }
 
