@@ -93,8 +93,6 @@ describe('Snake Methods', () => {
       snake.addEnd(position1)
       snake.addEnd(position2)
 
-      console.log(snake.tail)
-
       expect(snake.length).toBe(3)
       expect(snake.tail).toEqual(position2)
     })
@@ -132,6 +130,20 @@ describe('Snake Methods', () => {
 
       expect(snake.length).toBe(2)
       expect(snake.tail).toEqual(position1)
+    })
+  })
+
+  describe('toArray', () => {
+    it('should return all the values contained in an array', () => {
+      const position0 = { x: 0, y: 0 }
+      const position1 = { x: 1, y: 0 }
+      const position2 = { x: 2, y: 0 }
+      const position3 = { x: 3, y: 0 }
+
+      const initialData = [position0, position1, position2, position3]
+
+      const snake = new Snake(initialData)
+      expect(snake.toArray()).toEqual(initialData)
     })
   })
 })

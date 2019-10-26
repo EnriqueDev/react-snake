@@ -69,4 +69,16 @@ export default class Snake {
     this.last = this.last.prev!
     this.length--
   }
+
+  toArray(): Position[] {
+    let current = this.first
+    const result = []
+
+    while (current) {
+      result.push(current.position)
+      current = current.next
+    }
+
+    return result
+  }
 }
