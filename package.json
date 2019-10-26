@@ -35,7 +35,6 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "mobx": "^5.14.2",
     "react": "^16.0.0",
     "react-dom": "^16.10.2",
     "styled-components": "^4.4.0"
