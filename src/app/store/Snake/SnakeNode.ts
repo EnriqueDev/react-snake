@@ -1,5 +1,3 @@
-import { observable, action } from 'mobx'
-
 export type NullableSnakeNode = SnakeNode | null
 export type Position = {
   x: number
@@ -7,25 +5,18 @@ export type Position = {
 }
 
 export default class SnakeNode {
-  @observable
-  public prev?: NullableSnakeNode
-  @observable
+  public prev: NullableSnakeNode
   public next: NullableSnakeNode
-
-  @observable
   public position: Position
 
-  @action
   setNext(next: NullableSnakeNode) {
     this.next = next
   }
 
-  @action
   setPrev(prev: NullableSnakeNode) {
     this.prev = prev
   }
 
-  @action
   setPosition(position: Position) {
     this.position = position
   }
@@ -35,9 +26,8 @@ export default class SnakeNode {
     next: NullableSnakeNode,
     position: Position,
   ) {
-    this.setPrev(prev)
-    this.setNext(next)
     this.next = next
+    this.prev = prev
     this.position = position
   }
 }
