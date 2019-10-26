@@ -105,6 +105,7 @@ describe('Snake Methods', () => {
 
     it('should set both node references as empty if there is just one element', () => {
       const position = { x: 0, y: 0 }
+
       snake.addStart(position)
 
       expect(snake.tail).toBeDefined()
@@ -134,6 +135,10 @@ describe('Snake Methods', () => {
   })
 
   describe('toArray', () => {
+    it('should return an empty array when empty', () => {
+      expect(snake.toArray()).toEqual([])
+    })
+
     it('should return all the values contained in an array', () => {
       const position0 = { x: 0, y: 0 }
       const position1 = { x: 1, y: 0 }
