@@ -1,6 +1,8 @@
 import * as React from 'react'
-import styled from 'styled-components'
-import { useBoardStore } from '../store/context'
+import styled, { css } from 'styled-components'
+import { hot } from 'react-hot-loader'
+import { useBoard, useSnake } from '../store/context'
+import { includesEqualPosition } from '../helpers/array'
 
 const BoardContainer = styled.div`
   width: 500px;
@@ -24,24 +26,34 @@ const Row = styled.div`
   flex-direction: row;
 `
 
-const Cell = styled.div`
+const Cell = styled.div<{ occupied?: boolean }>`
   flex: 1 0 auto;
   border: 1px solid black;
+
+  ${({ occupied }) =>
+    occupied &&
+    css`
+      background-color: black;
+    `}
 `
 
 const Board: React.FC = () => {
-  const boardStore = useBoardStore()
+  const board = useBoard()
+  const snake = useSnake()
 
   return (
     <BoardContainer>
-      {boardStore.cells.map((rows, y) => {
+      {board.map((rows, y) => {
         return (
-          <Row>
-            {rows.map((_, x) => (
-              <Cell>
-                {x}:{y}
-              </Cell>
-            ))}
+          <Row key={y}>
+            {rows.map((_, x) => {
+              const isOccupied = includesEqualPosition(snake, { x, y })
+              return (
+                <Cell key={`${x}:${y}:${isOccupied}`} occupied={isOccupied}>
+                  {x}:{y}
+                </Cell>
+              )
+            })}
           </Row>
         )
       })}
@@ -49,4 +61,4 @@ const Board: React.FC = () => {
   )
 }
 
-export default Board
+export default hot(module)(Board)

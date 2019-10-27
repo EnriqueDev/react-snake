@@ -3,7 +3,12 @@ import Store from './store'
 
 export const StoreContext = createContext<Store>({} as Store)
 
-export const useBoardStore = () => {
+export const useBoard = () => {
   const context = useContext(StoreContext)
-  return context.boardStore
+  return context.getBoard()
+}
+
+export const useSnake = () => {
+  const context = useContext(StoreContext)
+  return context.getSnake()
 }
