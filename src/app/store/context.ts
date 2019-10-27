@@ -10,5 +10,10 @@ export const useBoard = () => {
 
 export const useSnake = () => {
   const context = useContext(StoreContext)
-  return context.getSnake()
+  return context.getSnake
+}
+
+export const useMoveSnake = () => {
+  const context = useContext(StoreContext)
+  return context.moveSnake
 }

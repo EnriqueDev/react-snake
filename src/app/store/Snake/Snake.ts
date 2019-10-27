@@ -24,7 +24,7 @@ export default class Snake {
   addStart(position: Position): void {
     const newNode = new SnakeNode(null, null, position)
 
-    if (this.first === null || this.last === null) {
+    if (this.length === 0) {
       this.first = newNode
       this.last = this.first
       this.length++
@@ -48,6 +48,7 @@ export default class Snake {
       return
     }
 
+    newNode.setPrev(this.last)
     this.last!.setNext(newNode)
     this.last = newNode
     this.length++
@@ -64,7 +65,6 @@ export default class Snake {
       this.length--
       return
     }
-
     this.last.prev!.setNext(null)
     this.last = this.last.prev!
     this.length--

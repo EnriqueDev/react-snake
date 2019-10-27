@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { Position } from '../store/Snake/SnakeNode'
 import styled, { css } from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { useBoard, useSnake } from '../store/context'
+import { useBoard, useSnake, useMoveSnake } from '../store/context'
 import { useTicker } from '../hooks'
 import { includesEqualPosition } from '../helpers/array'
 
@@ -39,9 +40,21 @@ const Cell = styled.div<{ occupied?: boolean }>`
 `
 
 const Board: React.FC = () => {
+  const [tick, setTick] = React.useState(0)
+  const [snake, setSnake] = React.useState<Position[]>([])
+  const getSnake = useSnake()
+  const moveSnake = useMoveSnake()
   const board = useBoard()
-  const snake = useSnake()
-  useTicker(() => console.log('tick!'))
+
+  useTicker(() => {
+    setTick(tick => tick + 1)
+  }, 500)
+
+  React.useEffect(() => {
+    moveSnake()
+    const snake = getSnake()
+    setSnake(snake)
+  }, [tick])
 
   return (
     <BoardContainer>
@@ -52,7 +65,7 @@ const Board: React.FC = () => {
               const isOccupied = includesEqualPosition(snake, { x, y })
               return (
                 <Cell key={`${x}:${y}:${isOccupied}`} occupied={isOccupied}>
-                  {x}:{y}
+                  {/* {x}:{y} */}
                 </Cell>
               )
             })}
