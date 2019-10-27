@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled, { css } from 'styled-components'
 import { hot } from 'react-hot-loader'
 import { useBoard, useSnake } from '../store/context'
+import { useTicker } from '../hooks'
 import { includesEqualPosition } from '../helpers/array'
 
 const BoardContainer = styled.div`
@@ -40,6 +41,7 @@ const Cell = styled.div<{ occupied?: boolean }>`
 const Board: React.FC = () => {
   const board = useBoard()
   const snake = useSnake()
+  useTicker(() => console.log('tick!'))
 
   return (
     <BoardContainer>
