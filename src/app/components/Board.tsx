@@ -1,10 +1,17 @@
 import * as React from 'react'
-import { Position } from '../store/Snake/SnakeNode'
+import { Position } from '../managers/Snake/SnakeNode'
 import styled, { css } from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { useBoard, useSnake, useMoveSnake } from '../store/context'
-import { useTicker } from '../hooks'
+import { useBoard, useFrameManager, useSnakeManager } from '../managers/context'
 import { includesEqualPosition } from '../helpers/array'
+
+type AllowedKeys =
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'ArrowLeft'
+  | 'ArrowRight'
+  | 'Pause'
+  | null
 
 const BoardContainer = styled.div`
   width: 500px;
@@ -42,18 +49,53 @@ const Cell = styled.div<{ occupied?: boolean }>`
 const Board: React.FC = () => {
   const [tick, setTick] = React.useState(0)
   const [snake, setSnake] = React.useState<Position[]>([])
-  const getSnake = useSnake()
-  const moveSnake = useMoveSnake()
+  const [isPaused, setIsPaused] = React.useState<boolean>(true)
+  const [lastKey, setLastkey] = React.useState<AllowedKeys>(null)
   const board = useBoard()
-
-  useTicker(() => {
-    setTick(tick => tick + 1)
-  }, 500)
+  const snakeManager = useSnakeManager()
+  const frameManager = useFrameManager()
 
   React.useEffect(() => {
-    moveSnake()
-    const snake = getSnake()
-    setSnake(snake)
+    setSnake(snakeManager.getSnake())
+    setTick(tick => tick + 1)
+    frameManager.init(() => setTick(tick => tick + 1))
+    addEventListener('keydown', (event: KeyboardEvent) => {
+      console.log(event.which)
+      switch (event.which) {
+        case 80:
+          setLastkey('Pause')
+          break
+        case 37:
+          setLastkey('ArrowLeft')
+          break
+        case 38:
+          setLastkey('ArrowUp')
+          break
+        case 39:
+          setLastkey('ArrowRight')
+          break
+        case 40:
+          setLastkey('ArrowDown')
+          break
+      }
+    })
+  }, [])
+
+  React.useEffect(() => {
+    switch (lastKey) {
+      case 'Pause':
+        setIsPaused(isPaused => !isPaused)
+        break
+
+      default:
+        if (!isPaused) {
+          snakeManager.moveSnake()
+          const snake = snakeManager.getSnake()
+          setSnake(snake)
+        }
+        break
+    }
+    setLastkey(null)
   }, [tick])
 
   return (
