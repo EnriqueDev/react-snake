@@ -1,7 +1,8 @@
 import * as React from 'react'
+import { Position } from '../managers/Snake/SnakeNode'
 import styled, { css } from 'styled-components'
 import { hot } from 'react-hot-loader'
-import { useBoard, useSnake } from '../store/context'
+import { useBoard, useFrameManager, useSnakeManager } from '../managers/context'
 import { includesEqualPosition } from '../helpers/array'
 
 const BoardContainer = styled.div`
@@ -38,8 +39,39 @@ const Cell = styled.div<{ occupied?: boolean }>`
 `
 
 const Board: React.FC = () => {
+  const [snake, setSnake] = React.useState<Position[]>([])
   const board = useBoard()
-  const snake = useSnake()
+  const snakeManager = useSnakeManager()
+  const frameManager = useFrameManager()
+
+  React.useEffect(() => {
+    setSnake(snakeManager.getSnake())
+    frameManager.init(() => {
+      snakeManager.moveSnake()
+      const snake = snakeManager.getSnake()
+      setSnake(snake)
+    })
+    addEventListener('keydown', (event: KeyboardEvent) => {
+      console.log(event.which)
+      switch (event.which) {
+        case 80:
+          snakeManager.togglePause()
+          break
+        case 37:
+          snakeManager.setLastPressedKey('left')
+          break
+        case 38:
+          snakeManager.setLastPressedKey('up')
+          break
+        case 39:
+          snakeManager.setLastPressedKey('right')
+          break
+        case 40:
+          snakeManager.setLastPressedKey('down')
+          break
+      }
+    })
+  }, [])
 
   return (
     <BoardContainer>
@@ -49,8 +81,8 @@ const Board: React.FC = () => {
             {rows.map((_, x) => {
               const isOccupied = includesEqualPosition(snake, { x, y })
               return (
-                <Cell key={`${x}:${y}:${isOccupied}`} occupied={isOccupied}>
-                  {x}:{y}
+                <Cell key={`${x}:${y}`} occupied={isOccupied}>
+                  {/* {x}:{y} */}
                 </Cell>
               )
             })}
