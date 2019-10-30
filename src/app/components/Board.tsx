@@ -5,14 +5,6 @@ import { hot } from 'react-hot-loader'
 import { useBoard, useFrameManager, useSnakeManager } from '../managers/context'
 import { includesEqualPosition } from '../helpers/array'
 
-type AllowedKeys =
-  | 'ArrowUp'
-  | 'ArrowDown'
-  | 'ArrowLeft'
-  | 'ArrowRight'
-  | 'Pause'
-  | null
-
 const BoardContainer = styled.div`
   width: 500px;
   height: 500px;
@@ -47,56 +39,39 @@ const Cell = styled.div<{ occupied?: boolean }>`
 `
 
 const Board: React.FC = () => {
-  const [tick, setTick] = React.useState(0)
   const [snake, setSnake] = React.useState<Position[]>([])
-  const [isPaused, setIsPaused] = React.useState<boolean>(true)
-  const [lastKey, setLastkey] = React.useState<AllowedKeys>(null)
   const board = useBoard()
   const snakeManager = useSnakeManager()
   const frameManager = useFrameManager()
 
   React.useEffect(() => {
     setSnake(snakeManager.getSnake())
-    setTick(tick => tick + 1)
-    frameManager.init(() => setTick(tick => tick + 1))
+    frameManager.init(() => {
+      snakeManager.moveSnake()
+      const snake = snakeManager.getSnake()
+      setSnake(snake)
+    })
     addEventListener('keydown', (event: KeyboardEvent) => {
       console.log(event.which)
       switch (event.which) {
         case 80:
-          setLastkey('Pause')
+          snakeManager.togglePause()
           break
         case 37:
-          setLastkey('ArrowLeft')
+          snakeManager.setLastPressedKey('left')
           break
         case 38:
-          setLastkey('ArrowUp')
+          snakeManager.setLastPressedKey('up')
           break
         case 39:
-          setLastkey('ArrowRight')
+          snakeManager.setLastPressedKey('right')
           break
         case 40:
-          setLastkey('ArrowDown')
+          snakeManager.setLastPressedKey('down')
           break
       }
     })
   }, [])
-
-  React.useEffect(() => {
-    switch (lastKey) {
-      case 'Pause':
-        setIsPaused(isPaused => !isPaused)
-        break
-
-      default:
-        if (!isPaused) {
-          snakeManager.moveSnake()
-          const snake = snakeManager.getSnake()
-          setSnake(snake)
-        }
-        break
-    }
-    setLastkey(null)
-  }, [tick])
 
   return (
     <BoardContainer>
@@ -106,7 +81,7 @@ const Board: React.FC = () => {
             {rows.map((_, x) => {
               const isOccupied = includesEqualPosition(snake, { x, y })
               return (
-                <Cell key={`${x}:${y}:${isOccupied}`} occupied={isOccupied}>
+                <Cell key={`${x}:${y}`} occupied={isOccupied}>
                   {/* {x}:{y} */}
                 </Cell>
               )
