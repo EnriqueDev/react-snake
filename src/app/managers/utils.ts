@@ -1,5 +1,5 @@
 import { Position } from './Snake/SnakeNode'
-import { MIN_BOARD_SIZE, DEFAULT_SNAKE_SIZE } from '../../constants'
+import { MIN_BOARD_SIZE, DEFAULT_SNAKE_SIZE } from '../constants'
 
 export const getInitialBoardData = (cells: number): any[][] => {
   const board = []
