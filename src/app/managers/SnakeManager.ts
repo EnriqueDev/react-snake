@@ -1,6 +1,6 @@
 import Snake from './Snake/Snake'
-import { getInitialSnakeData } from './helpers'
-import { DEFAULT_BOARD_SIZE } from '../../constants'
+import { getInitialSnakeData } from './utils'
+import { DEFAULT_BOARD_SIZE } from '../constants'
 
 type Movement = 'up' | 'down' | 'left' | 'right' | 'pause'
 
