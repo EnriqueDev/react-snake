@@ -1,5 +1,5 @@
-import { getInitialBoardData, getInitialSnakeData } from '../helpers'
-import { DEFAULT_SNAKE_SIZE } from '../../../constants'
+import { getInitialBoardData, getInitialSnakeData } from '../utils'
+import { DEFAULT_SNAKE_SIZE } from '../../constants'
 
 describe('Helper Functions', () => {
   describe('getInitialBoardData', () => {

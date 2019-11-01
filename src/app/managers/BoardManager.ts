@@ -1,5 +1,5 @@
-import { getInitialBoardData } from './helpers'
-import { DEFAULT_BOARD_SIZE } from '../../constants'
+import { getInitialBoardData } from './utils'
+import { DEFAULT_BOARD_SIZE } from '../constants'
 
 export default class BoardManager {
   private board: any[][]
