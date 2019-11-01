@@ -1,13 +1,14 @@
 import Snake from './Snake/Snake'
-import { getInitialSnakeData } from './helpers'
-import { DEFAULT_BOARD_SIZE } from '../../constants'
+import { getInitialSnakeData } from './utils'
+import { DEFAULT_BOARD_SIZE } from '../constants'
+import { Position } from './Snake/SnakeNode'
 
-type Movement = 'up' | 'down' | 'left' | 'right' | 'pause'
+type Direction = 'up' | 'down' | 'left' | 'right'
 
 class SnakeManager {
   private snake: Snake
-  private lastMovement: Movement = 'left'
-  private lastPressedKey: Movement = 'left'
+  private lastMovement: Direction = 'left'
+  private lastPressedKey: Direction = 'left'
   private isPaused = true
 
   constructor() {
@@ -15,7 +16,7 @@ class SnakeManager {
     this.snake = new Snake(initialSnakeData)
   }
 
-  setLastPressedKey = (key: Movement) => {
+  setLastPressedKey = (key: Direction) => {
     this.lastPressedKey = key
   }
 
@@ -27,6 +28,21 @@ class SnakeManager {
     this.isPaused = !this.isPaused
   }
 
+  isCollision(position: Position) {
+    if (
+      position.x >= DEFAULT_BOARD_SIZE ||
+      position.y < 0 ||
+      position.y >= DEFAULT_BOARD_SIZE ||
+      position.x < 0
+    ) {
+      return true
+    }
+
+    return this.getSnake().some(
+      node => node.x === position.x && node.y === position.y,
+    )
+  }
+
   moveSnake = () => {
     if (this.isPaused) {
       return
@@ -36,7 +52,7 @@ class SnakeManager {
       switch (this.lastPressedKey) {
         case 'up':
           if (this.lastMovement !== 'down') {
-            this.moveUp()
+            this.move('up')
           } else {
             this.repeatLastMovement()
           }
@@ -44,7 +60,7 @@ class SnakeManager {
 
         case 'down':
           if (this.lastMovement !== 'up') {
-            this.moveDown()
+            this.move('down')
           } else {
             this.repeatLastMovement()
           }
@@ -52,7 +68,7 @@ class SnakeManager {
 
         case 'right':
           if (this.lastMovement !== 'left') {
-            this.moveRight()
+            this.move('right')
           } else {
             this.repeatLastMovement()
           }
@@ -60,7 +76,7 @@ class SnakeManager {
 
         case 'left':
           if (this.lastMovement !== 'right') {
-            this.moveLeft()
+            this.move('left')
           } else {
             this.repeatLastMovement()
           }
@@ -72,57 +88,57 @@ class SnakeManager {
   repeatLastMovement = () => {
     switch (this.lastMovement) {
       case 'up':
-        this.moveUp()
+        this.move('up')
         break
 
       case 'down':
-        this.moveDown()
+        this.move('down')
         break
 
       case 'right':
-        this.moveRight()
+        this.move('right')
         break
 
       case 'left':
-        this.moveLeft()
+        this.move('left')
         break
     }
   }
 
-  moveUp = () => {
+  move = (direction: Direction) => {
     const first = this.snake.head
-
     if (first) {
-      this.snake.addStart({ x: first.x, y: first.y - 1 })
+      const nextPosition = this.getNextPosition(direction)
+
+      if (this.isCollision(nextPosition)) {
+        throw new Error('Collision')
+      }
+
+      this.snake.addStart(nextPosition)
       this.snake.removeEnd()
-      this.lastMovement = 'up'
+      this.lastMovement = direction
     }
   }
 
-  moveDown = () => {
+  getNextPosition = (direction: Direction): Position => {
     const first = this.snake.head
-    if (first) {
-      this.snake.addStart({ x: first.x, y: first.y + 1 })
-      this.snake.removeEnd()
-      this.lastMovement = 'down'
-    }
-  }
 
-  moveLeft = () => {
-    const first = this.snake.head
-    if (first) {
-      this.snake.addStart({ x: first.x - 1, y: first.y })
-      this.snake.removeEnd()
-      this.lastMovement = 'left'
+    if (!first) {
+      throw new Error('Tried to update postion with an empty list')
     }
-  }
 
-  moveRight = () => {
-    const first = this.snake.head
-    if (first) {
-      this.snake.addStart({ x: first.x + 1, y: first.y })
-      this.snake.removeEnd()
-      this.lastMovement = 'right'
+    switch (direction) {
+      case 'up':
+        return { x: first.x, y: first.y - 1 }
+
+      case 'down':
+        return { x: first.x, y: first.y + 1 }
+
+      case 'left':
+        return { x: first.x - 1, y: first.y }
+
+      case 'right':
+        return { x: first.x + 1, y: first.y }
     }
   }
 }

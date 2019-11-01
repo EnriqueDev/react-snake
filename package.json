@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest",
     "start": "parcel src/index.html --no-autoinstall",
+    "test:types": "tsc -p ./tsconfig.json --noEmit",
     "compile": "tsc -p . --noEmit --watch"
   },
   "repository": {

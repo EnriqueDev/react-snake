@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { Position } from '../managers/Snake/SnakeNode'
 import styled, { css } from 'styled-components'
-import { hot } from 'react-hot-loader'
-import { useBoard, useFrameManager, useSnakeManager } from '../managers/context'
 import { includesEqualPosition } from '../helpers/array'
 
 const BoardContainer = styled.div`
@@ -38,53 +36,20 @@ const Cell = styled.div<{ occupied?: boolean }>`
     `}
 `
 
-const Board: React.FC = () => {
-  const [snake, setSnake] = React.useState<Position[]>([])
-  const board = useBoard()
-  const snakeManager = useSnakeManager()
-  const frameManager = useFrameManager()
+interface IProps {
+  cells: any[][]
+  snake: Position[]
+}
 
-  React.useEffect(() => {
-    setSnake(snakeManager.getSnake())
-    frameManager.init(() => {
-      snakeManager.moveSnake()
-      const snake = snakeManager.getSnake()
-      setSnake(snake)
-    })
-    addEventListener('keydown', (event: KeyboardEvent) => {
-      console.log(event.which)
-      switch (event.which) {
-        case 80:
-          snakeManager.togglePause()
-          break
-        case 37:
-          snakeManager.setLastPressedKey('left')
-          break
-        case 38:
-          snakeManager.setLastPressedKey('up')
-          break
-        case 39:
-          snakeManager.setLastPressedKey('right')
-          break
-        case 40:
-          snakeManager.setLastPressedKey('down')
-          break
-      }
-    })
-  }, [])
-
+const Board: React.FC<IProps> = ({ cells, snake }) => {
   return (
     <BoardContainer>
-      {board.map((rows, y) => {
+      {cells.map((rows, y) => {
         return (
           <Row key={y}>
             {rows.map((_, x) => {
               const isOccupied = includesEqualPosition(snake, { x, y })
-              return (
-                <Cell key={`${x}:${y}`} occupied={isOccupied}>
-                  {/* {x}:{y} */}
-                </Cell>
-              )
+              return <Cell key={`${x}:${y}`} occupied={isOccupied} />
             })}
           </Row>
         )
@@ -93,4 +58,4 @@ const Board: React.FC = () => {
   )
 }
 
-export default hot(module)(Board)
+export default Board

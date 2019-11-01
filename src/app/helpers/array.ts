@@ -1,4 +1,4 @@
-import { Position } from '~store/Snake/SnakeNode'
+import { Position } from '../managers/Snake/SnakeNode'
 
 export const includesEqualPosition = (
   list: Position[],
