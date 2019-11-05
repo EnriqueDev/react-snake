@@ -6,7 +6,8 @@
     "test": "jest",
     "start": "parcel src/index.html --no-autoinstall",
     "test:types": "tsc -p ./tsconfig.json --noEmit",
-    "compile": "tsc -p . --noEmit --watch"
+    "compile": "tsc -p . --noEmit --watch",
+    "build": "parcel build src/index.html"
   },
   "repository": {
     "type": "git",
