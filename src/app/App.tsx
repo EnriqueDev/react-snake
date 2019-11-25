@@ -9,6 +9,7 @@ const gameManager = new GameManager()
 
 const App: React.FC = () => {
   const [snake, setSnake] = React.useState<Position[]>([])
+  const [cells, setCells] = React.useState<any[][]>([])
 
   const runFrameUpdate = React.useCallback(() => {
     gameManager.runSystemFrame()
@@ -18,13 +19,14 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     setSnake(gameManager.getState())
+    setCells(gameManager.getCells())
     gameManager.init(runFrameUpdate)
   }, [])
 
   return (
     <>
       <Reset />
-      <Board snake={snake} cells={gameManager.getBoard()} />
+      <Board snake={snake} cells={cells} />
     </>
   )
 }

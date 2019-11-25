@@ -1,4 +1,4 @@
-import BoardManager from './managers/BoardManager'
+import BoardManager, { Board } from './managers/BoardManager'
 import FrameManager from './managers/FrameManager'
 import SnakeManager from './managers/SnakeManager'
 import { Position } from './managers/Snake/SnakeNode'
@@ -18,8 +18,12 @@ export default class GameManager {
     return this.snakeManager.getSnake()
   }
 
-  getBoard = (): any[][] => {
+  getBoard = (): Board => {
     return this.boardManager.getBoard()
+  }
+
+  getCells = (): any[][] => {
+    return this.boardManager.getCells()
   }
 
   init(callBack: () => void) {
