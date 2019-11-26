@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { Position } from '../managers/Snake/SnakeNode'
 import styled, { css } from 'styled-components'
-import { includesEqualPosition } from '../helpers/array'
 
 const BoardContainer = styled.div`
   width: 500px;
