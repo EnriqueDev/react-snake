@@ -21,7 +21,7 @@ class SnakeManager {
   }
 
   getSnake() {
-    return this.snake.toArray()
+    return this.snake.toMap()
   }
 
   togglePause() {
@@ -38,9 +38,7 @@ class SnakeManager {
       return true
     }
 
-    return this.getSnake().some(
-      node => node.x === position.x && node.y === position.y,
-    )
+    return this.getSnake().has(`${position.x}:${position.y}`)
   }
 
   moveSnake = () => {

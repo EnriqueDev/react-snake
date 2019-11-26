@@ -14,7 +14,7 @@ export default class GameManager {
     this.snakeManager = new SnakeManager()
   }
 
-  getState = (): Position[] => {
+  getState = (): Map<string, boolean> => {
     return this.snakeManager.getSnake()
   }
 

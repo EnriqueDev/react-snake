@@ -38,7 +38,7 @@ const Cell = styled.div<{ occupied?: boolean }>`
 
 interface IProps {
   cells: any[][]
-  snake: Position[]
+  snake: Map<string, boolean>
 }
 
 const Board: React.FC<IProps> = ({ cells, snake }) => {
@@ -48,8 +48,9 @@ const Board: React.FC<IProps> = ({ cells, snake }) => {
         return (
           <Row key={y}>
             {rows.map((_, x) => {
-              const isOccupied = includesEqualPosition(snake, { x, y })
-              return <Cell key={`${x}:${y}`} occupied={isOccupied} />
+              const position = `${x}:${y}`
+              const isOccupied = snake.has(position)
+              return <Cell key={position} occupied={isOccupied} />
             })}
           </Row>
         )

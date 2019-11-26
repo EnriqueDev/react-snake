@@ -8,7 +8,7 @@ import { Reset } from './styles'
 const gameManager = new GameManager()
 
 const App: React.FC = () => {
-  const [snake, setSnake] = React.useState<Position[]>([])
+  const [snake, setSnake] = React.useState<Map<string, boolean>>(new Map())
   const [cells, setCells] = React.useState<any[][]>([])
 
   const runFrameUpdate = React.useCallback(() => {
