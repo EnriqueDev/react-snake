@@ -1,7 +1,6 @@
 import BoardManager, { Board } from './managers/BoardManager'
 import FrameManager from './managers/FrameManager'
 import SnakeManager from './managers/SnakeManager'
-import { Position } from './managers/Snake/SnakeNode'
 
 export default class GameManager {
   private boardManager: BoardManager
@@ -14,21 +13,17 @@ export default class GameManager {
     this.snakeManager = new SnakeManager()
   }
 
+  init(callBack: () => void) {
+    this.addEventListeners()
+    this.frameManager.init(callBack)
+  }
+
   getState = (): Map<string, boolean> => {
     return this.snakeManager.getSnake()
   }
 
-  getBoard = (): Board => {
-    return this.boardManager.getBoard()
-  }
-
   getCells = (): any[][] => {
     return this.boardManager.getCells()
-  }
-
-  init(callBack: () => void) {
-    this.addEventListeners()
-    this.frameManager.init(callBack)
   }
 
   runSystemFrame = () => {
