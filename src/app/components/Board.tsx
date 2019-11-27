@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
+import console = require('console')
 
 const BoardContainer = styled.div`
   width: 500px;
@@ -23,23 +24,45 @@ const Row = styled.div`
   flex-direction: row;
 `
 
-const Cell = styled.div<{ occupied?: boolean }>`
+const Cell = styled.div<{ occupied: boolean; isFood: boolean }>`
   flex: 1 0 auto;
   border: 1px solid black;
+  position: relative;
 
   ${({ occupied }) =>
     occupied &&
     css`
       background-color: black;
     `}
+
+  ${({ isFood, occupied }) =>
+    isFood &&
+    !occupied &&
+    css`
+      ::after {
+        position: absolute;
+        content: '';
+        size: 75%;
+        border-radius: 50%;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border: 1px solid black;
+        background-color: black;
+        z-index: 10;
+      }
+    `}
 `
 
 interface IProps {
   cells: any[][]
   snake: Map<string, boolean>
+  foodPosition: string
 }
 
-const Board: React.FC<IProps> = ({ cells, snake }) => {
+const Board: React.FC<IProps> = ({ cells, foodPosition, snake }) => {
+  console.log('>> foodPosition', foodPosition)
   return (
     <BoardContainer>
       {cells.map((rows, y) => {
@@ -48,7 +71,10 @@ const Board: React.FC<IProps> = ({ cells, snake }) => {
             {rows.map((_, x) => {
               const position = `${x}:${y}`
               const isOccupied = snake.has(position)
-              return <Cell key={position} occupied={isOccupied} />
+              const isFood = foodPosition === position
+              return (
+                <Cell key={position} occupied={isOccupied} isFood={isFood} />
+              )
             })}
           </Row>
         )

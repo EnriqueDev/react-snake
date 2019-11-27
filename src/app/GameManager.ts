@@ -2,6 +2,11 @@ import BoardManager, { Board } from './managers/BoardManager'
 import FrameManager from './managers/FrameManager'
 import SnakeManager from './managers/SnakeManager'
 
+interface IGameState {
+  snake: Map<string, boolean>
+  foodPosition: string
+}
+
 export default class GameManager {
   private boardManager: BoardManager
   private frameManager: FrameManager
@@ -11,6 +16,14 @@ export default class GameManager {
     this.boardManager = new BoardManager()
     this.frameManager = new FrameManager()
     this.snakeManager = new SnakeManager()
+
+    const snake = this.snakeManager.getSnake().keys()
+
+    for (let position of snake) {
+      this.boardManager.occupyPosition(position)
+    }
+
+    this.boardManager.calculateNextFoodPosition()
   }
 
   init(callBack: () => void) {
@@ -18,8 +31,11 @@ export default class GameManager {
     this.frameManager.init(callBack)
   }
 
-  getState = (): Map<string, boolean> => {
-    return this.snakeManager.getSnake()
+  getState = (): IGameState => {
+    return {
+      snake: this.snakeManager.getSnake(),
+      foodPosition: this.boardManager.getFoodPosition(),
+    }
   }
 
   getCells = (): any[][] => {

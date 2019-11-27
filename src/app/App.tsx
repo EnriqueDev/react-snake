@@ -10,15 +10,21 @@ const gameManager = new GameManager()
 const App: React.FC = () => {
   const [snake, setSnake] = React.useState<Map<string, boolean>>(new Map())
   const [cells, setCells] = React.useState<any[][]>([])
+  const [food, setFood] = React.useState<string>('')
 
   const runFrameUpdate = React.useCallback(() => {
     gameManager.runSystemFrame()
-    const snake = gameManager.getState()
+    const { snake, foodPosition } = gameManager.getState()
     setSnake(snake)
+    if (food !== foodPosition) {
+      setFood(foodPosition)
+    }
   }, [])
 
   React.useEffect(() => {
-    setSnake(gameManager.getState())
+    const { snake, foodPosition } = gameManager.getState()
+    setSnake(snake)
+    setFood(foodPosition)
     setCells(gameManager.getCells())
     gameManager.init(runFrameUpdate)
   }, [])
@@ -26,7 +32,7 @@ const App: React.FC = () => {
   return (
     <>
       <Reset />
-      <Board snake={snake} cells={cells} />
+      <Board foodPosition={food} snake={snake} cells={cells} />
     </>
   )
 }
