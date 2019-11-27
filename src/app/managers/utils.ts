@@ -1,18 +1,25 @@
 import { Position } from './Snake/SnakeNode'
 import { MIN_BOARD_SIZE, DEFAULT_SNAKE_SIZE } from '../constants'
 
-export const getInitialBoardData = (cells: number): any[][] => {
-  const board = []
+type InitialBoardData = {
+  board: Map<string, boolean>
+  cells: any[][]
+}
 
-  for (let row = 0; row < cells; row++) {
-    const newArray = []
-    for (let cell = 0; cell < cells; cell++) {
-      newArray.push(null)
+export const getInitialBoardData = (rowSize: number): InitialBoardData => {
+  const board: Map<string, boolean> = new Map()
+  const cells = []
+
+  for (let row = 0; row < rowSize; row++) {
+    const cellsRow = []
+    for (let cell = 0; cell < rowSize; cell++) {
+      cellsRow.push(null)
+      board.set(`${row}:${cell}`, false)
     }
-    board.push(newArray)
+    cells.push(cellsRow)
   }
 
-  return board
+  return { board, cells }
 }
 
 export const getInitialSnakeData = (

@@ -70,12 +70,14 @@ export default class Snake {
     this.length--
   }
 
-  toArray(): Position[] {
+  toMap(): Map<string, boolean> {
     let current = this.first
-    const result = []
+    const result = new Map()
 
     while (current) {
-      result.push(current.position)
+      const position = current.position
+      const key = `${position.x}:${position.y}`
+      result.set(key, false)
       current = current.next
     }
 

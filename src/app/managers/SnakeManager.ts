@@ -21,7 +21,7 @@ class SnakeManager {
   }
 
   getSnake() {
-    return this.snake.toArray()
+    return this.snake.toMap()
   }
 
   togglePause() {
@@ -38,9 +38,7 @@ class SnakeManager {
       return true
     }
 
-    return this.getSnake().some(
-      node => node.x === position.x && node.y === position.y,
-    )
+    return this.getSnake().has(`${position.x}:${position.y}`)
   }
 
   moveSnake = () => {
@@ -51,35 +49,29 @@ class SnakeManager {
     if (first) {
       switch (this.lastPressedKey) {
         case 'up':
-          if (this.lastMovement !== 'down') {
-            this.move('up')
-          } else {
-            this.repeatLastMovement()
-          }
+          this.lastMovement !== 'down'
+            ? this.move('up')
+            : this.repeatLastMovement()
+
           break
 
         case 'down':
-          if (this.lastMovement !== 'up') {
-            this.move('down')
-          } else {
-            this.repeatLastMovement()
-          }
+          this.lastMovement !== 'up'
+            ? this.move('down')
+            : this.repeatLastMovement()
+
           break
 
         case 'right':
-          if (this.lastMovement !== 'left') {
-            this.move('right')
-          } else {
-            this.repeatLastMovement()
-          }
+          this.lastMovement !== 'left'
+            ? this.move('right')
+            : this.repeatLastMovement()
           break
 
         case 'left':
-          if (this.lastMovement !== 'right') {
-            this.move('left')
-          } else {
-            this.repeatLastMovement()
-          }
+          this.lastMovement !== 'right'
+            ? this.move('left')
+            : this.repeatLastMovement()
           break
       }
     }

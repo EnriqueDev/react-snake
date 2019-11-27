@@ -13,9 +13,7 @@ class FrameManager {
         currentFrameTime - this.lastFrameTime > tickDuration
       ) {
         this.lastFrameTime = currentFrameTime
-        if (this.lastFrameTime) {
-          callBack()
-        }
+        callBack()
       }
       this.animationFrameRequest = requestAnimationFrame(tick)
     }
