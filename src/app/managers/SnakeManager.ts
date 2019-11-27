@@ -1,9 +1,9 @@
 import Snake from './Snake/Snake'
-import { getInitialSnakeData } from './utils'
+import { getInitialSnakeData, getOppositeDirection } from './utils'
 import { DEFAULT_BOARD_SIZE } from '../constants'
 import { Position } from './Snake/SnakeNode'
 
-type Direction = 'up' | 'down' | 'left' | 'right'
+export type Direction = 'up' | 'down' | 'left' | 'right'
 
 class SnakeManager {
   private snake: Snake
@@ -42,74 +42,34 @@ class SnakeManager {
   }
 
   moveSnake = () => {
-    if (this.isPaused) {
+    const first = this.snake.head
+    if (this.isPaused || !first) {
       return
     }
-    const first = this.snake.head
-    if (first) {
-      switch (this.lastPressedKey) {
-        case 'up':
-          this.lastMovement !== 'down'
-            ? this.move('up')
-            : this.repeatLastMovement()
+    const isOppositeDirecton =
+      this.lastPressedKey === getOppositeDirection(this.lastMovement)
 
-          break
-
-        case 'down':
-          this.lastMovement !== 'up'
-            ? this.move('down')
-            : this.repeatLastMovement()
-
-          break
-
-        case 'right':
-          this.lastMovement !== 'left'
-            ? this.move('right')
-            : this.repeatLastMovement()
-          break
-
-        case 'left':
-          this.lastMovement !== 'right'
-            ? this.move('left')
-            : this.repeatLastMovement()
-          break
-      }
+    if (isOppositeDirecton) {
+      this.move(this.lastMovement)
     }
-  }
 
-  repeatLastMovement = () => {
-    switch (this.lastMovement) {
-      case 'up':
-        this.move('up')
-        break
-
-      case 'down':
-        this.move('down')
-        break
-
-      case 'right':
-        this.move('right')
-        break
-
-      case 'left':
-        this.move('left')
-        break
-    }
+    this.move(this.lastPressedKey)
   }
 
   move = (direction: Direction) => {
-    const first = this.snake.head
-    if (first) {
-      const nextPosition = this.getNextPosition(direction)
-
-      if (this.isCollision(nextPosition)) {
-        throw new Error('Collision')
-      }
-
-      this.snake.addStart(nextPosition)
-      this.snake.removeEnd()
-      this.lastMovement = direction
+    if (!this.snake.head) {
+      return
     }
+
+    const nextPosition = this.getNextPosition(direction)
+
+    if (this.isCollision(nextPosition)) {
+      throw new Error('Collision')
+    }
+
+    this.snake.addStart(nextPosition)
+    this.snake.removeEnd()
+    this.lastMovement = direction
   }
 
   getNextPosition = (direction: Direction): Position => {
