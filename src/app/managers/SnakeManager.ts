@@ -2,30 +2,19 @@ import Snake from './Snake/Snake'
 import { getInitialSnakeData, getOppositeDirection } from './utils'
 import { DEFAULT_BOARD_SIZE } from '../constants'
 import { Position } from './Snake/SnakeNode'
-
-export type Direction = 'up' | 'down' | 'left' | 'right'
+import { Direction } from './ListenersManager'
 
 class SnakeManager {
   private snake: Snake
   private lastMovement: Direction = 'left'
-  private lastPressedKey: Direction = 'left'
-  private isPaused = true
 
   constructor() {
     const initialSnakeData = getInitialSnakeData(DEFAULT_BOARD_SIZE)
     this.snake = new Snake(initialSnakeData)
   }
 
-  setLastPressedKey = (key: Direction) => {
-    this.lastPressedKey = key
-  }
-
   getSnake() {
     return this.snake.toMap()
-  }
-
-  togglePause() {
-    this.isPaused = !this.isPaused
   }
 
   isCollision(position: Position) {
@@ -41,19 +30,18 @@ class SnakeManager {
     return this.getSnake().has(`${position.x}:${position.y}`)
   }
 
-  moveSnake = () => {
-    const first = this.snake.head
-    if (this.isPaused || !first) {
+  triggerMovement = (nextDirection: Direction) => {
+    if (!this.snake.head) {
       return
     }
     const isOppositeDirecton =
-      this.lastPressedKey === getOppositeDirection(this.lastMovement)
+      nextDirection === getOppositeDirection(this.lastMovement)
 
     if (isOppositeDirecton) {
       this.move(this.lastMovement)
     }
 
-    this.move(this.lastPressedKey)
+    this.move(nextDirection)
   }
 
   move = (direction: Direction) => {

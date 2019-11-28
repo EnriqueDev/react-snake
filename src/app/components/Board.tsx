@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import console = require('console')
 
 const BoardContainer = styled.div`
   width: 500px;
@@ -62,7 +61,6 @@ interface IProps {
 }
 
 const Board: React.FC<IProps> = ({ cells, foodPosition, snake }) => {
-  console.log('>> foodPosition', foodPosition)
   return (
     <BoardContainer>
       {cells.map((rows, y) => {

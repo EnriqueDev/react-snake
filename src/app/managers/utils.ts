@@ -1,6 +1,6 @@
 import { Position } from './Snake/SnakeNode'
 import { MIN_BOARD_SIZE, DEFAULT_SNAKE_SIZE } from '../constants'
-import { Direction } from './SnakeManager'
+import { Direction } from './ListenersManager'
 
 type InitialBoardData = {
   board: Map<string, boolean>
