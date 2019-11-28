@@ -1,5 +1,6 @@
 import { Position } from './Snake/SnakeNode'
 import { MIN_BOARD_SIZE, DEFAULT_SNAKE_SIZE } from '../constants'
+import { Direction } from './ListenersManager'
 
 type InitialBoardData = {
   board: Map<string, boolean>
@@ -39,4 +40,20 @@ export const getInitialSnakeData = (
   }
 
   return result
+}
+
+export const getOppositeDirection = (direction: Direction) => {
+  switch (direction) {
+    case 'down':
+      return 'up'
+
+    case 'up':
+      return 'down'
+
+    case 'left':
+      return 'right'
+
+    case 'right':
+      return 'left'
+  }
 }

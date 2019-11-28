@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { hot } from 'react-hot-loader'
-import { Position } from './managers/Snake/SnakeNode'
 import Board from './components/Board'
 import GameManager from './GameManager'
 import { Reset } from './styles'
