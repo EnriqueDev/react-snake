@@ -30,25 +30,40 @@ class SnakeManager {
     return this.getSnake().has(`${position.x}:${position.y}`)
   }
 
-  triggerMovement = (nextDirection: Direction) => {
+  triggerMovement = (
+    nextDirection: Direction,
+    foodPosition: string,
+  ): boolean => {
     if (!this.snake.head) {
-      return
+      return false
     }
     const isOppositeDirecton =
       nextDirection === getOppositeDirection(this.lastMovement)
 
     if (isOppositeDirecton) {
-      this.move(this.lastMovement)
+      this.move(this.lastMovement, foodPosition)
     }
 
-    this.move(nextDirection)
+    return this.move(nextDirection, foodPosition)
   }
 
-  move = (direction: Direction) => {
+  move = (direction: Direction, foodPosition: string): boolean => {
     if (!this.snake.head) {
-      return
+      return false
     }
 
+    const nextPosition = this.addStart(direction)
+    const stringifyedPosition = `${nextPosition.x}:${nextPosition.y}`
+    const hasEatenFood = stringifyedPosition === foodPosition
+    if (!hasEatenFood) {
+      this.snake.removeEnd()
+    }
+    this.lastMovement = direction
+
+    return hasEatenFood
+  }
+
+  addStart = (direction: Direction): Position => {
     const nextPosition = this.getNextPosition(direction)
 
     if (this.isCollision(nextPosition)) {
@@ -56,8 +71,7 @@ class SnakeManager {
     }
 
     this.snake.addStart(nextPosition)
-    this.snake.removeEnd()
-    this.lastMovement = direction
+    return nextPosition
   }
 
   getNextPosition = (direction: Direction): Position => {

@@ -50,8 +50,17 @@ export default class GameManager {
   runSystemFrame = () => {
     const nextDirection = this.listenersManager.getLastPressedKey()
     const isPaused = this.listenersManager.getIsPaused()
-    if (!isPaused) {
-      this.snakeManager.triggerMovement(nextDirection)
+    if (isPaused) {
+      return
+    }
+
+    const hasEatenFood = this.snakeManager.triggerMovement(
+      nextDirection,
+      this.boardManager.getFoodPosition(),
+    )
+
+    if (hasEatenFood) {
+      this.boardManager.calculateNextFoodPosition()
     }
   }
 }
