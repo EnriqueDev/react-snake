@@ -3,7 +3,7 @@ class FrameManager {
   private lastFrameTime: number = 0
 
   init(callBack: () => void) {
-    this.start(callBack, 200)
+    this.start(callBack, 380)
   }
 
   start(callBack: () => void, tickDuration: number) {
