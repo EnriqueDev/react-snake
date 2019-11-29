@@ -41,17 +41,16 @@ class SnakeManager {
       nextDirection === getOppositeDirection(this.lastMovement)
 
     if (isOppositeDirecton) {
-      this.move(this.lastMovement, foodPosition)
+      return this.move(this.lastMovement, foodPosition)
     }
 
     return this.move(nextDirection, foodPosition)
   }
 
-  move = (direction: Direction, foodPosition: string): boolean => {
+  private move = (direction: Direction, foodPosition: string): boolean => {
     if (!this.snake.head) {
       return false
     }
-
     const nextPosition = this.addStart(direction)
     const stringifyedPosition = `${nextPosition.x}:${nextPosition.y}`
     const hasEatenFood = stringifyedPosition === foodPosition

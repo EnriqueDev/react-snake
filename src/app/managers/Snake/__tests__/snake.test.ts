@@ -134,12 +134,8 @@ describe('Snake Methods', () => {
     })
   })
 
-  describe('toArray', () => {
-    it('should return an empty array when empty', () => {
-      expect(snake.toArray()).toEqual([])
-    })
-
-    it('should return all the values contained in an array', () => {
+  describe('toMap', () => {
+    it('should contain all the values contained in an the snake', () => {
       const position0 = { x: 0, y: 0 }
       const position1 = { x: 1, y: 0 }
       const position2 = { x: 2, y: 0 }
@@ -148,7 +144,9 @@ describe('Snake Methods', () => {
       const initialData = [position0, position1, position2, position3]
 
       const snake = new Snake(initialData)
-      expect(snake.toArray()).toEqual(initialData)
+      initialData.forEach(position =>
+        expect(snake.toMap().has(`${position.x}:${position.y}`)).toBeTruthy(),
+      )
     })
   })
 })

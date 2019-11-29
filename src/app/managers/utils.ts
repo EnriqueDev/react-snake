@@ -31,7 +31,7 @@ export const getInitialSnakeData = (
     throw new Error('Board is not big enough to set the snake')
   }
 
-  let x = Math.round(boardSize / 2) - 3
+  let x = Math.round(boardSize / 2)
   const y = x
 
   const result = []
