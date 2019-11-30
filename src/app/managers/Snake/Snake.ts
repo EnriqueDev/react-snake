@@ -59,15 +59,18 @@ export default class Snake {
       throw new Error('Attemted to remove an element from an empty list')
     }
 
+    const returnValue = this.last.position
     if (this.length === 1) {
       this.last = null
       this.first = null
       this.length--
-      return
+      return `${returnValue.x}:${returnValue.y}`
     }
+
     this.last.prev!.setNext(null)
     this.last = this.last.prev!
     this.length--
+    return `${returnValue.x}:${returnValue.y}`
   }
 
   toMap(): Map<string, boolean> {

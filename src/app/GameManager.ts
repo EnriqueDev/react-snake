@@ -54,12 +54,20 @@ export default class GameManager {
       return
     }
 
-    const hasEatenFood = this.snakeManager.triggerMovement(
+    const newState = this.snakeManager.triggerMovement(
       nextDirection,
       this.boardManager.getFoodPosition(),
     )
 
-    if (hasEatenFood) {
+    if (!newState) {
+      return
+    }
+
+    if (newState.deletedPosition) {
+      this.boardManager.occupyPosition(newState.deletedPosition)
+    }
+    this.boardManager.freePosition(newState.nextPosition)
+    if (newState.hasEatenFood) {
       this.boardManager.calculateNextFoodPosition()
     }
   }

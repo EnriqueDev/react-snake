@@ -4,10 +4,9 @@ import { DEFAULT_SNAKE_SIZE } from '../../constants'
 describe('Helper Functions', () => {
   describe('getInitialBoardData', () => {
     it('should provide a matrix with the given size', () => {
-      const initialData = getInitialBoardData(3)
-      expect(Array.isArray(initialData)).toBe(true)
-      expect(initialData).toHaveLength(3)
-      initialData.forEach(() => {})
+      const { cells } = getInitialBoardData(3)
+      expect(Array.isArray(cells)).toBeTruthy()
+      expect(cells).toHaveLength(3)
     })
   })
 
@@ -26,7 +25,13 @@ describe('Helper Functions', () => {
     })
 
     it('should provide the correct positions', () => {
-      const expectedResult = [{ x: 5, y: 5 }, { x: 6, y: 5 }, { x: 7, y: 5 }]
+      const expectedResult = [
+        { x: 5, y: 5 },
+        { x: 6, y: 5 },
+        { x: 7, y: 5 },
+        { x: 8, y: 5 },
+        { x: 9, y: 5 },
+      ]
       const initialData = getInitialSnakeData(10)
       expect(initialData).toEqual(expectedResult)
     })
