@@ -15,7 +15,7 @@ export const getInitialBoardData = (rowSize: number): InitialBoardData => {
     const cellsRow = []
     for (let cell = 0; cell < rowSize; cell++) {
       cellsRow.push(null)
-      board.set(`${row}:${cell}`, false)
+      board.set(`${row}:${cell}`, true)
     }
     cells.push(cellsRow)
   }

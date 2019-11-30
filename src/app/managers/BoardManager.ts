@@ -2,6 +2,7 @@ import { getInitialBoardData } from './utils'
 import { DEFAULT_BOARD_SIZE } from '../constants'
 
 export type Board = Map<string, boolean>
+
 export default class BoardManager {
   private board: Board
   private cells: any[][]
@@ -35,7 +36,9 @@ export default class BoardManager {
 
   calculateNextFoodPosition() {
     const freePositions = Array.from(this.board.keys())
-    const nextFoodPosition = Math.floor(Math.random() * (this.board.size - 1))
+    const nextFoodPosition = Math.floor(
+      Math.random() * (freePositions.length - 1),
+    )
     this.foodPosition = freePositions[nextFoodPosition]
   }
 }

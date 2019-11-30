@@ -30,12 +30,9 @@ class SnakeManager {
     return this.getSnake().has(`${position.x}:${position.y}`)
   }
 
-  triggerMovement = (
-    nextDirection: Direction,
-    foodPosition: string,
-  ): boolean => {
+  triggerMovement = (nextDirection: Direction, foodPosition: string) => {
     if (!this.snake.head) {
-      return false
+      return null
     }
     const isOppositeDirecton =
       nextDirection === getOppositeDirection(this.lastMovement)
@@ -47,19 +44,24 @@ class SnakeManager {
     return this.move(nextDirection, foodPosition)
   }
 
-  private move = (direction: Direction, foodPosition: string): boolean => {
+  private move = (
+    direction: Direction,
+    foodPosition: string,
+  ): {
+    hasEatenFood: boolean
+    deletedPosition: string | null
+    nextPosition: string
+  } | null => {
     if (!this.snake.head) {
-      return false
+      return null
     }
     const nextPosition = this.addStart(direction)
     const stringifyedPosition = `${nextPosition.x}:${nextPosition.y}`
     const hasEatenFood = stringifyedPosition === foodPosition
-    if (!hasEatenFood) {
-      this.snake.removeEnd()
-    }
+    const deletedPosition = hasEatenFood ? null : this.snake.removeEnd()
     this.lastMovement = direction
 
-    return hasEatenFood
+    return { hasEatenFood, deletedPosition, nextPosition: stringifyedPosition }
   }
 
   addStart = (direction: Direction): Position => {
