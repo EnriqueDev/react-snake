@@ -6,6 +6,7 @@ import ListenersManager from './managers/ListenersManager'
 interface IGameState {
   snake: Map<string, boolean>
   foodPosition: string
+  score: number
 }
 
 export default class GameManager {
@@ -13,6 +14,8 @@ export default class GameManager {
   private frameManager: FrameManager
   private listenersManager: ListenersManager
   private snakeManager: SnakeManager
+
+  private score: number
 
   constructor() {
     this.boardManager = new BoardManager()
@@ -22,6 +25,7 @@ export default class GameManager {
 
     this.removeSnakeCells()
     this.boardManager.calculateNextFoodPosition()
+    this.score = 0
   }
 
   init(callBack: () => void) {
@@ -40,6 +44,7 @@ export default class GameManager {
     return {
       snake: this.snakeManager.getSnake(),
       foodPosition: this.boardManager.getFoodPosition(),
+      score: this.score,
     }
   }
 
@@ -68,7 +73,12 @@ export default class GameManager {
     }
     this.boardManager.freePosition(newState.nextPosition)
     if (newState.hasEatenFood) {
-      this.boardManager.calculateNextFoodPosition()
+      this.handleEatenFood()
     }
+  }
+
+  private handleEatenFood() {
+    this.boardManager.calculateNextFoodPosition()
+    this.score += 10
   }
 }

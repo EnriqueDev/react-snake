@@ -3,17 +3,13 @@ import styled, { css } from 'styled-components'
 
 const BoardContainer = styled.div`
   width: 500px;
+  max-width: 100vw;
   height: 500px;
   overflow: hidden;
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
 `
 
 const Row = styled.div`
